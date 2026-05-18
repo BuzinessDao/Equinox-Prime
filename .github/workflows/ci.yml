@@ -1,0 +1,104 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  # ── Soroban contract ────────────────────────────────────────────────────────
+  contract:
+    name: Rust contract tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust + wasm32 target
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            contracts/vault/target
+          key: cargo-${{ hashFiles('contracts/vault/Cargo.toml') }}
+          restore-keys: cargo-
+
+      # dev-dependencies already include soroban-sdk/testutils — no extra flag needed
+      - name: Run contract tests
+        working-directory: contracts/vault
+        run: cargo test
+
+      - name: Build WASM release
+        working-directory: contracts/vault
+        run: cargo build --target wasm32-unknown-unknown --release
+
+  # ── Noir ZK circuit ─────────────────────────────────────────────────────────
+  circuit:
+    name: Noir circuit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Nargo 0.36.0
+        run: |
+          curl -L https://github.com/noir-lang/noir/releases/download/v0.36.0/nargo-x86_64-unknown-linux-gnu.tar.gz \
+            | tar -xz -C /usr/local/bin
+
+      - name: Run circuit tests
+        working-directory: circuits/balance_validator
+        run: nargo test
+
+      - name: Compile circuit
+        working-directory: circuits/balance_validator
+        run: nargo compile
+
+  # ── Next.js frontend ────────────────────────────────────────────────────────
+  frontend:
+    name: Frontend build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm install --legacy-peer-deps
+
+      - name: Build
+        working-directory: frontend
+        run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:3001
+
+  # ── Backend relayer ─────────────────────────────────────────────────────────
+  backend:
+    name: Backend lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        working-directory: backend
+        run: npm install --no-workspaces
+
+      - name: Check syntax
+        working-directory: backend
+        run: node --check src/index.js src/indexer.js src/routes/vault.js

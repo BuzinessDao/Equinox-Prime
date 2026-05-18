@@ -1,0 +1,13 @@
+# Prover.toml — example private inputs for balance_validator
+# Run: nargo prove
+#
+# amount and blinding are PRIVATE — never shared or stored on-chain.
+# Generate blinding with: openssl rand -hex 16
+
+amount   = "500000"
+blinding = "305419896"   # 0x1234abcd in decimal
+
+# Public inputs (must match Verifier.toml)
+commitment = "0x0000000000000000000000000000000000000000000000000000000000000000"  # fill after nargo execute
+min        = "100000"
+max        = "1000000"

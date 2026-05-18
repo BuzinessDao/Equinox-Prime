@@ -1,0 +1,8 @@
+# Verifier.toml — public inputs for balance_validator proof verification
+# Run: nargo verify
+#
+# These values are safe to share — they contain no private information.
+
+commitment = "0x0000000000000000000000000000000000000000000000000000000000000000"  # from nargo execute
+min        = "100000"
+max        = "1000000"
