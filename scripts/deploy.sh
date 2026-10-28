@@ -31,22 +31,17 @@ echo "==> Initializing contract..."
 ADMIN_PUB=$(stellar keys address "$ADMIN_SECRET" 2>/dev/null || \
   stellar keys public-key --secret-key "$ADMIN_SECRET")
 
-if [[ -z "$TOKEN_ADDRESS" ]]; then
-  echo "ERROR: TOKEN_ADDRESS env var required (SAC address of the escrow token)"
-  exit 1
-fi
-
 stellar contract invoke \
   --id "$CONTRACT_ID" \
   --source "$ADMIN_SECRET" \
   --network "$NETWORK" \
   -- init \
-  --admin "$ADMIN_PUB" \
-  --token "$TOKEN_ADDRESS"
+  --admin "$ADMIN_PUB"
 
 echo ""
-echo "✓ Equinox Prime deployed!"
+echo "✓ Equinox Prime Shielded Vault deployed & initialized!"
 echo "  CONTRACT_ID=$CONTRACT_ID"
 echo ""
-echo "Add to backend/.env:"
+echo "Add to backend/.env and frontend/.env.local:"
 echo "  CONTRACT_ID=$CONTRACT_ID"
+echo "  NEXT_PUBLIC_CONTRACT_ID=$CONTRACT_ID"
