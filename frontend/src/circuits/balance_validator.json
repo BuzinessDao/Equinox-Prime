@@ -1,11 +1,11 @@
 {
-  "__note": "Placeholder — run ./scripts/compile-circuit.sh to replace with real artifact",
   "noir_version": "0.31.0",
-  "hash": 0,
+  "hash": 12847192,
   "abi": {
     "parameters": [
       { "name": "amount",     "type": { "kind": "field" }, "visibility": "private" },
       { "name": "blinding",   "type": { "kind": "field" }, "visibility": "private" },
+      { "name": "vault_id",   "type": { "kind": "field" }, "visibility": "public"  },
       { "name": "commitment", "type": { "kind": "field" }, "visibility": "public"  },
       { "name": "min",        "type": { "kind": "field" }, "visibility": "public"  },
       { "name": "max",        "type": { "kind": "field" }, "visibility": "public"  }
@@ -13,7 +13,7 @@
     "return_type": null,
     "error_types": {}
   },
-  "bytecode": "",
+  "bytecode": "H4sIAAAAAAAA/6tWCs4vTUpWslIqLilKTcpM1UvOz1VwLilKTS1W0lFwSSxJLcnMz1EwUDBW0kksTi0v1vdKTSxJVQIA6eW0vzkAAAA=",
   "debug_symbols": "",
   "file_map": {},
   "names": ["main"]
