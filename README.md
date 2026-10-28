@@ -6,7 +6,16 @@
 [![Rust](https://img.shields.io/badge/Smart_Contract-Rust_WASM-orange.svg)](https://www.rust-lang.org/)
 [![Noir ZK](https://img.shields.io/badge/ZK_Circuit-Noir_v0.31-blueviolet.svg)](https://noir-lang.org/)
 [![Next.js](https://img.shields.io/badge/Frontend-Next.js_14-black.svg)](https://nextjs.org/)
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-Live_Demo-0070F3?logo=vercel&logoColor=white)](https://equinox-prime-topmatrixmor.vercel.app)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+---
+
+### 🌐 Live Production Deployment
+- **Production URL**: [https://equinox-prime-topmatrixmor.vercel.app](https://equinox-prime-topmatrixmor.vercel.app)
+- **Deployment URL**: [https://equinox-prime-e8ckzj5vp-topmatrixmor.vercel.app](https://equinox-prime-e8ckzj5vp-topmatrixmor.vercel.app)
+- **Deployment Status**: `READY` (Production)
+- **Deployment ID**: `dpl_8uPjUz1kvNyjwjGH5ih2CCQBjUxH`
 
 ---
 
@@ -20,7 +29,7 @@
 - [7. Next.js Confidential Procurement Portal](#7-nextjs-confidential-procurement-portal)
 - [8. Monorepo Structure](#8-monorepo-structure)
 - [9. Quickstart & Local Verification](#9-quickstart--local-verification)
-- [10. Vercel Deployment Guide](#10-vercel-deployment-guide)
+- [10. Vercel Deployment & Live Verification](#10-vercel-deployment--live-verification)
 
 ---
 
@@ -284,14 +293,23 @@ npm run dev
 
 ---
 
-## 10. Vercel Deployment Guide
+## 10. Vercel Deployment & Live Verification
 
-1. Push your repository to GitHub.
-2. In the [Vercel Dashboard](https://vercel.com/new), select `Next.js` and set the **Root Directory** to `frontend`.
-3. Set optional environment variables:
-   - `NEXT_PUBLIC_STELLAR_NETWORK`: `TESTNET`
-   - `NEXT_PUBLIC_API_URL`: Relayer endpoint URL
-4. Full instructions are available in [DEPLOYMENT_VERCEL.md](DEPLOYMENT_VERCEL.md).
+The Equinox Prime confidential frontend dashboard is live and actively deployed on Vercel:
+
+| Property | Value |
+|---|---|
+| **Production Domain** | [https://equinox-prime-topmatrixmor.vercel.app](https://equinox-prime-topmatrixmor.vercel.app) |
+| **Direct Deployment URL** | [https://equinox-prime-e8ckzj5vp-topmatrixmor.vercel.app](https://equinox-prime-e8ckzj5vp-topmatrixmor.vercel.app) |
+| **Deployment ID** | `dpl_8uPjUz1kvNyjwjGH5ih2CCQBjUxH` |
+| **Status** | `● Ready` (Production) |
+| **Framework** | Next.js 14 (App Router) |
+| **Client-Side Proving** | Noir WASM + Barretenberg WebWorker |
+
+### Deployment Pipeline
+1. **Automated REST Pipeline**: Packaged and deployed directly via Vercel REST API (`scripts/deploy_vercel.mjs`).
+2. **Zero-Config WASM Compatibility**: Includes `next.config.mjs` asynchronous WebAssembly support and CORS headers (`Cross-Origin-Opener-Policy: same-origin`, `Cross-Origin-Embedder-Policy: require-corp`) required for multithreaded Barretenberg proof generation.
+3. Full deployment architecture details are documented in [DEPLOYMENT_VERCEL.md](DEPLOYMENT_VERCEL.md).
 
 ---
 
